@@ -1,0 +1,19 @@
+请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+
+二种方法进行python字符串替换:
+
+1、用字符串本身的方法replace替换字符串。
+a.replace('word','python')
+2、用正则来替换字符串
+import re
+strinfo = re.compile('word')
+b = strinfo.sub('python',a)
+print b
+
+
+
+class Solution:
+    # s 源字符串
+    def replaceSpace(self, s):
+        # write code here
+        return s.replace(' ','%20')
