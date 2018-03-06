@@ -1,0 +1,19 @@
+一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+
+
+本题和leetcode中的爬楼梯一样，只是，leetcode中的是只能1 or 2，所以是Fibonacci数列，F(n)=F(n-1)+F(n-2)
+用递归的方法
+
+本题是1-n，所以F(n)=F(n-1)+F(n-2)+...+F(1)   经计算得到F(n)=2F(n-1)  
+或者，直接是计算出F(n)=2^(n-1)
+
+
+
+
+class Solution:
+    def jumpFloorII(self, number):
+        # write code here
+        if number<=2:
+            return number
+        else:
+            return self.jumpFloorII(number-1)*2
