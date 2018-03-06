@@ -1,0 +1,24 @@
+大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项。
+n<=39
+
+注意，真正的Fibonacci数列是：1 1 2 3 5 8
+最后是算出来了，但是运行超时
+class Solution:
+    def Fibonacci(self, n):
+        # write code here
+        if n<1 and n>40:
+            return 0
+        else:
+            if n<=2:
+                return 1
+            else:
+                return self.Fibonacci(n-1)+self.Fibonacci(n-2)
+                
+ 相当于尾递归吧，就是，把计算过的值，储存起来一下，这样就不超时了               
+class Solution:
+    def Fibonacci(self, n):
+        # write code here
+        re=[0,1,1,2]
+        while len(re)<=n:
+            re.append(re[-1]+re[-2])
+        return re[n]
