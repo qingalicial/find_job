@@ -1,6 +1,8 @@
 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
 请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 
+python中实现逆序遍历
+for i in range(length-1,-1,-1):
 
 两种思路
 一种是：
@@ -10,3 +12,18 @@
 另外一种思路是：
 利用二维数组由上到下，由左到右递增的规律， 那么选取右上角或者左下角的元素a[row][col]与target进行比较，
 当target小于元素a[row][col]时，那么target必定在元素a所在行的左边,    当target大于元素a[row][col]时，那么target必定在元素a所在列的下边,
+
+
+class Solution:
+    # array 二维列表
+    def Find(self, target, array):
+        # write code here
+        i,j=len(array)-1,0
+        while i> -1 and j < len(array[0]):
+            if array[i][j]<target:
+                j=j+1
+            elif array[i][j]>target:
+                i=i-1
+            else:
+                return True
+        return False
