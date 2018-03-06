@@ -1,0 +1,35 @@
+输入一个链表，从尾到头打印链表每个节点的值。
+
+个人有点蒙
+
+最佳代码：代码思路借助栈，遍历的时候入栈，由于数据结构中栈的特点是先进后出，所以遍历的过程中压栈，推栈，完了弹栈加到ArrayList中。
+有两个容易出错的地方：第一，第一次测试用例，{}返回[ ],null是null，而[ ]是new ArrayList（）但是没有数据。
+第二，遍历stack用的方法是！stak.isEmpty()方法，而不是for循环size遍历。。
+ 
+ 
+ 将链表值放到列表中，然后逆序输出列表， 将问题转换为列表的问题
+class Solution:
+    # 返回从尾部到头部的列表值序列，例如[1,2,3]
+    def printListFromTailToHead(self, listNode):
+        newlist =[]
+        while listNode is not None:
+            newlist.append(listNode.val)
+            listNode = listNode.next
+        return newlist[::-1]
+        
+             
+
+# python的实现这么少， 我来添砖加瓦
+# 1.先遍历链表元素到栈
+# 2.栈再弹出
+ 
+
+        
+ 这个是转化为栈
+class Solution: 
+# 返回从尾部到头部的列表值序列，例如[1,2,3] 
+    def printListFromTailToHead(self, listNode): 
+    # write code here 
+    if listNode is None: 
+        return [] 
+    return self.printListFromTailToHead(listNode.next) + [listNode.val]
