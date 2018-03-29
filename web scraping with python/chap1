@@ -1,1 +1,44 @@
-daima
+
+https://bitbucket.org/wswp/code     本书代码下载地址
+http://example.webscraping.com     本书示例网站
+
+1 背景调研
+对目标站点的规模和结构进行一定程度的了解。
+1.1 检查robots.txt
+robots.txt：让爬虫了解爬取网站存在哪些限制，爬取之前，检查该文件可以最小化爬虫被封可能。    
+
+disallow: 禁止用户代理为subject_search 的爬虫爬取，
+craw-delay：两次下载请求之间给出5秒延迟
+
+1.2 检查网站地图sitemap    
+帮助爬虫定位网站最新内容，而无需爬取每一个网页，但往往该文件存在缺失，过去不完整内容。
+1.3 估算网站大小
+如果只有几百个url，则效率不重要，如果有数百万个网页的站点，使用串行下载可能需要持续数个月才能完成。这就需要分布式下载。
+估算网站大小的一个简便方法是检查google爬虫的结果。因为google很可能已经爬取过我们感兴趣的网站，可以通过google搜索site关键词过滤域名结果，从而获取。
+eg： google 中搜索:site :example.webscraping.com        估算有202
+1.4 识别网站所用技术
+有一个十分有用的工具可以检查网站构建的技术类型----builtwith模块
+pip install builtwith
+该模块将url作为参数，下载该url并对其进行分析，返回网站使用的技术
+>>>import builtwith
+>>>builtwith.parse(;http://example.webscraping.com')
+  ● 使用JavaScript库，比较好抓，
+  ● 使用angularjs  动态加载
+  ● asp.net 需要用到会话管理和表单提交
+
+1.5 寻找网站所有者
+使用WHOIS协议查询域名注册者是谁。
+pip install python-whois
+import whois
+print whois.whois('appspot.com')
+2 编写第一个爬虫
+2.1 下载网页
+import urllib2
+def download(url):
+return urllib.urlopen(url).read()
+
+import urllib2
+def download(url):
+print 'Downloading:',url
+try:
+html=urllib2
