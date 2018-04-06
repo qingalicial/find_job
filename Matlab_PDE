@@ -1,0 +1,56 @@
+使用PDE建模器，第一步，键入pdeModeler打开应用程序
+
+createpde    创建模型
+PDEModel     PDE模型对象
+
+
+几何
+  importGeometry：  CAD做出的STl文件，
+  geometryFromMesh：从网格重建几何图形。
+  
+  从CAD导入四面体网格
+  从点的网状凸壳中创建一个几何块：
+         创建一个3维网格：
+         [x,y,z]=meshgrid(-2:4:2);
+          创建凸壳，获得的是每个转折点，要想根据这些转折点获得组成的边界，convhull作用是用一个凸多边形将空间中的点包围起来
+            x为2*2*2的矩阵，然后转为8*1的矩阵，k为12*3维的矩阵，elements为3*12，nodes为3*8
+          x=x(:)
+          y = y(:);
+          z = z(:);
+          K = convhull(x,y,z);
+          将数据放置在geometryFromMesh的正确形状中   nodes为3*8
+          nodes=[x';y';z'];
+          elements=K';
+          创建一个PDE模型并导入网格     模型有十二条边，8个点
+          model = createpde();
+          geometryFromMesh(model,nodes,elements);
+          查看几何图形和面数字
+          pdegplot(model,'FaceLabels','on','FaceAlpha',0.5)
+          
+          
+  从matlab alphashape函数创建一个3维几何。首先创建一个具有圆柱孔的ahphaShape对象，然后从alphaShape边界将几何图形导入到PDE模型中
+        创建一个二维网格：
+        [xg, yg] = meshgrid(-3:0.25:3);
+        xg = xg(:);
+        yg = yg(:);
+        创建单位磁盘，卸下位于单位磁盘内的所有网格点，
+        
+        创建其余网格点的3维副本，z坐标范围从0到1不等。将点组合到alphaShape对象中
+        
+        获取对象的曲面网格
+        将数据放置在正确形状中
+        创建一个PDE模型并导入曲面网格
+        查看几何图形和面数字
+        
+
+边界条件
+  
+
+
+PDE系数
+
+
+初始条件
+
+
+PDE求解
