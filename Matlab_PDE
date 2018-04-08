@@ -29,18 +29,41 @@ PDEModel     PDE模型对象
           
           
   从matlab alphashape函数创建一个3维几何。首先创建一个具有圆柱孔的ahphaShape对象，然后从alphaShape边界将几何图形导入到PDE模型中
-        创建一个二维网格：
+        创建一个二维网格：   xg25*25    xg:625*1
         [xg, yg] = meshgrid(-3:0.25:3);
         xg = xg(:);
         yg = yg(:);
-        创建单位磁盘，卸下位于单位磁盘内的所有网格点，
-        
-        创建其余网格点的3维副本，z坐标范围从0到1不等。将点组合到alphaShape对象中
-        
+        创建单位磁盘，卸下位于单位磁盘内的所有网格点，     in为625*1的逻辑数组
+ alphaShape(x,y,z) 使用默认 alpha 半径创建一个包含点 (x,y,z) 的三维 alpha 形状。inShape	确定点是否在 alpha 形状内部
+        t = (pi/24:pi/24:2*pi)';
+        x = cos(t);
+        y = sin(t);
+        circShp = alphaShape(x,y,2);    
+        in = inShape(circShp,xg,yg);
+        xg = [xg(~in); cos(t)];
+        yg = [yg(~in); sin(t)];
+        创建其余网格点的3维副本，z坐标范围从0到1不等。将点组合到alphaShape对象中   zg为628*1维，全为1
+         remat：重复数组副本，行重复5，列重复1，所以xg 3140*1
+        zg = ones(numel(xg),1);
+        xg = repmat(xg,5,1);
+        yg = repmat(yg,5,1);
+        zg = zg*(0:.25:1);    变成628*5
+        zg = zg(:);           变成3140*1
+        shp = alphaShape(xg,yg,zg);
         获取对象的曲面网格
+        [elements,nodes] = boundaryFacets(shp);
         将数据放置在正确形状中
+        nodes = nodes';
+elements = elements';
         创建一个PDE模型并导入曲面网格
+        model = createpde();
+geometryFromMesh(model,nodes,elements);
         查看几何图形和面数字
+        pdegplot(model,'FaceLabels','on','FaceAlpha',0.5)
+        
+        要在分析中使用几何图形, 请创建卷网格。
+
+generateMesh(model);
         
 
 边界条件
