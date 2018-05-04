@@ -1,0 +1,40 @@
+# 导入数据
+df = pd.read_csv(filepath_or_buffer="D://movie.csv")
+df_new = df.set_index(["country"])
+df_new.loc[list(["Canada"])] # 1
+df_new.loc[df_new["duration"]>160] # 2
+df_new.loc[((df_new["duration"] > 200) & (df_new["director_facebook_likes"] > 300 )),"flage"] =1 # 3
+df_new.loc[df_new["duration"].isin([100])] # 4
+df_new.query("duration > 100 & index == 'UK'") # 5
+
+1：根据列中的元素，选取对应元素的数据集 
+2：根据元素的选取条件来选取对应的数据集 
+3：根据元素的选取条件来来选取对应的数据集，并在符合条件的数据行添加flage标签 
+4：isin函数是series用来判断值是否在目标值是否在series 
+5：query函数中用来判断条件符合的数据集并返回
+
+df_new.iloc[0:4]
+iloc比较简单，它是基于索引位来选取数据集，0:4就是选取 0，1，2，3这四行，需要注意的是这里是前闭后开集合
+
+
+loc与
+loc——通过行标签索引行数据  
+df.loc['d']    
+
+ iloc——通过行号获取行数据  
+ 
+ ix——结合前两种的混合索引  
+ 
+ 清理无效数据
+df[df.isnull()]  #返回的是个true或false的Series对象（掩码对象），进而筛选出我们需要的特定数据。
+df[df.notnull()]
+
+df.dropna()     #将所有含有nan项的row删除
+df.dropna(axis=1,thresh=3)  #将在列的方向上三个为NaN的项删除
+df.dropna(how='ALL')        #将全部项都是nan的row删除
+
+
+填充无效值
+df.fillna(0)
+df.fillna({1:0, 2:0.5})         #对第一列nan值赋0，第二列赋值0.5
+df.fillna(method='ffill')   #在列方向上以前一个值作为值赋给NaN
